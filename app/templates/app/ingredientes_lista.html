@@ -4,13 +4,19 @@
 <h1>Página principal de ingredientes</h1>
 
 <form action="" method="get">
-    <label for="categoria"></label>
+    <label for="categoria">Categoria:</label>
     <select name="categoria" id="categoria">
         <option value="">---</option>
         {% for categoria in categorias %}
-            <option value="{{categoria.pk}}">{{categoria.nombre}}</option>
+            <option value="{{categoria.pk}}" {% if request.GET.categoria == categoria.pk|stringformat:'s' %} selected{% endif %}>{{categoria.nombre}}</option>>{{categoria.nombre}}</option>
         {% endfor %}
     </select>
+
+    <label for="refrigerado">¿Es refrigerado?</label>
+    <input type="checkbox" name="refrigerado" id="refrigerado">
+
+    <label for="nombre">Nombre:</label>
+    <input type="text" name="nombre" id="nombre">
 
     <input type="submit" value="Filtrar">
 </form>
