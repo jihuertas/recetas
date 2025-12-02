@@ -21,6 +21,12 @@
     <input type="submit" value="Filtrar">
 </form>
 
+<form action="" method="get">
+    <h2>Nuevo filtro</h2>
+    {{formulario_filtro}}
+    <input type="submit" value="Filtrar">
+</form>
+
 <ul>
     {% for ingrediente in ingredientes %}
     <li>{{ ingrediente }} </li>

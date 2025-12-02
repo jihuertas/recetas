@@ -1,0 +1,15 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+<h1>Añadir ingredientes</h1>
+<form action="" method="post">
+    {% csrf_token %}
+    {{ formularios.management_form }}
+
+    {% for formulario in formularios %}
+        {{ formulario }}
+    {%endfor%}
+    <input type="submit" value="Enviar">
+</form>
+<
+{% endblock %}
