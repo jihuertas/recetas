@@ -75,8 +75,36 @@ def recetas_lista(request):
 
 def receta_detalle(request, pk):
     receta = get_object_or_404(Receta, pk=pk)
-    ingredientes = Ingrediente.objects.all()
-    return render(request, 'app/receta_detalle.html', {'receta':receta, 'ingredientes':ingredientes})
+    form = IngredienteRecetaForm()
+
+    if request.method == 'POST':
+        form = IngredienteRecetaForm(request.POST)
+        if form.is_valid():
+            form.instance.receta = receta
+            form.save()
+            return redirect('receta_detalle', pk=pk)
+        else:
+            print(form.errors)
+    return render(request, 'app/receta_detalle.html', {'receta':receta, 'form':form})
+    
+
+def receta_detalle2(request, pk):
+    receta = get_object_or_404(Receta, pk=pk)
+    IngredienteRecetaFormSet = modelformset_factory(IngredienteReceta, form=IngredienteRecetaForm, extra=3)
+
+    if request.method == 'POST':
+        formset = IngredienteRecetaFormSet(request.POST,queryset=IngredienteReceta.objects.none())
+        if formset.is_valid():
+            for form in formset:
+                form.instance.receta = receta
+            formset.save()
+            return redirect('receta_detalle', pk=pk)
+        else:
+            print(formset.errors)
+    else:
+        formset = IngredienteRecetaFormSet(queryset=IngredienteReceta.objects.none())
+    return render(request, 'app/receta_detalle.html', {'receta':receta, 'formset':formset})
+    
 
 def receta_agregar_ingrediente(request, receta_pk, ingrediente_pk):
     receta = get_object_or_404(Receta, pk=receta_pk)
